@@ -631,11 +631,6 @@ class Park {
         this.yearBuild = yearBuild;
     }
 
-    parkDensity() {
-        let density = this.numTrees/ this.parkArea;
-        return density;
-    }
-
     parkAge() {
         let age = new Date().getFullYear() - this.yearBuild;
         return age;
@@ -648,6 +643,12 @@ class EPPark extends Park {
         this.numTrees = numTrees;
         this.parkArea = parkArea;
     }
+
+    parkDensity() {
+        let density = this.numTrees/ this.parkArea;
+        return density;
+    }
+
 }
 
 //Streets function constructor 
@@ -696,11 +697,13 @@ function addStreetData(street) {
 //Parks 
 
 //Initializing parks (3)
-const pierce = new EPPark('Pierce', 1987, 1250);
+const pierce = new EPPark('Pierce', 1987, 1250, 2000);
 addParkData(pierce);
-const kent = new EPPark('Kent', 1995, 980);
+console.log(pierce.parkAge());
+console.log(pierce.parkDensity());
+const kent = new EPPark('Kent', 1995, 980, 1000);
 addParkData(kent);
-const aggy = new EPPark('Agawam', 1990, 2200);
+const aggy = new EPPark('Agawam', 1990, 2200, 2000);
 addParkData(aggy);
 //Initializing streets  (4)
 const eastern = new EPStreet('Eastern Ave', 2002, 8);
