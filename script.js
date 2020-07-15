@@ -657,6 +657,11 @@ class Street {
         this.name = name;
         this.yearBuild = yearOfBuild;
     }
+
+    streetAge() {
+        let age = new Date().getFullYear() - this.yearBuild;
+        return age;
+    }
 }
 
 class EPStreet extends Street {
@@ -671,11 +676,13 @@ let data = {
     allData: {
         parks: {
             names: [],
-            ages: []
+            ages: [], 
+            trees: []
         },
         streets: {
             names: [],
-            ages: []
+            ages: [],
+            streetLengths: []
         }
     }
 }
@@ -685,13 +692,17 @@ function addParkData(park) {
     data.allData.parks.names.push(park.name);
     //push park age
     data.allData.parks.ages.push(park.parkAge());
+
+    data.allData.parks.trees.push(park.numTrees);
 }
 
 function addStreetData(street) {
     //push street name
-    data.allParkData.streets.names.push(street.name);
+    data.allData.streets.names.push(street.name);
     //Push street age
     data.allData.streets.ages.push(street.streetAge());
+
+    data.allData.streets.streetLengths.push(street.streetLength);
 } 
 
 //Parks 
@@ -706,11 +717,27 @@ addParkData(kent);
 const aggy = new EPPark('Agawam', 1990, 2200, 2000);
 addParkData(aggy);
 //Initializing streets  (4)
-const eastern = new EPStreet('Eastern Ave', 2002, 8);
+const eastern = new EPStreet('Eastern Ave', 2002, 8, 'normal');
 const pawtucket = new EPStreet('Pawtucket Ave', 1990, 55);
 const taunton = new EPStreet('Taunton Ave', 1995, 17);
 const putnam = new EPStreet('Putnam St', 1998, 4);
-
+addStreetData(eastern);
+addStreetData(pawtucket);
 console.log(data);
 
+//Average age of parks
+function averageParksAges() {
+    let allAges, avgAges;
+    allAges = data.allData.parks.ages.reduce((a,b) => a + b, 0);
+    avgAges = allAges / data.allData.parks.ages.length;
+    return avgAges;
+}
 
+//Total lengths of town streets 
+function totalStreetLengths() {
+    let totalLengths;
+    totalLengths = data.allData.streets.streetLengths.reduce((a,b) => a + b , 0);
+    return totalLengths;
+}
+
+//Average lengths of town streets
