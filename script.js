@@ -670,9 +670,13 @@ class EPStreet extends Street {
         this.streetLength = streetLength;
         this.streetSize = streetSize;
     }
+
+    
 }
 
 let data = {
+    parks: [],
+    streets: [],
     allData: {
         parks: {
             names: [],
@@ -682,7 +686,8 @@ let data = {
         streets: {
             names: [],
             ages: [],
-            streetLengths: []
+            streetLengths: [],
+            streetSize: []
         }
     }
 }
@@ -692,8 +697,9 @@ function addParkData(park) {
     data.allData.parks.names.push(park.name);
     //push park age
     data.allData.parks.ages.push(park.parkAge());
-
+    //push numnber of trees 
     data.allData.parks.trees.push(park.numTrees);
+    data.parks.push(park);
 }
 
 function addStreetData(street) {
@@ -701,43 +707,86 @@ function addStreetData(street) {
     data.allData.streets.names.push(street.name);
     //Push street age
     data.allData.streets.ages.push(street.streetAge());
-
+    //Push street lengths 
     data.allData.streets.streetLengths.push(street.streetLength);
+    //Push street sizes 
+    data.allData.streets.streetSize.push(street.streetSize);
+    data.streets.push(street);
 } 
-
-//Parks 
 
 //Initializing parks (3)
 const pierce = new EPPark('Pierce', 1987, 1250, 2000);
 addParkData(pierce);
-console.log(pierce.parkAge());
-console.log(pierce.parkDensity());
 const kent = new EPPark('Kent', 1995, 980, 1000);
 addParkData(kent);
 const aggy = new EPPark('Agawam', 1990, 2200, 2000);
 addParkData(aggy);
-//Initializing streets  (4)
-const eastern = new EPStreet('Eastern Ave', 2002, 8, 'normal');
-const pawtucket = new EPStreet('Pawtucket Ave', 1990, 55);
-const taunton = new EPStreet('Taunton Ave', 1995, 17);
-const putnam = new EPStreet('Putnam St', 1998, 4);
+const myron = new EPPark('Myron', 2002, 850, 1500);
+addParkData(myron);
+
+//Initializing streets  (4) tiny/small/normal/big/huge
+const eastern = new EPStreet('Eastern Ave', 2002, 8, 'tiny');
 addStreetData(eastern);
+const pawtucket = new EPStreet('Pawtucket Ave', 1990, 55, 'huge');
 addStreetData(pawtucket);
+const taunton = new EPStreet('Taunton Ave', 1995, 17,'big');
+addStreetData(taunton);
+const putnam = new EPStreet('Putnam St', 1998, 4);
+addStreetData(putnam);
+const rice = new EPStreet('Rice Ave', 1992, 5, 'small');
+addStreetData(rice);
+
+//Print Data
 console.log(data);
+
+//Park Density of each park in the town 
+function allParkDensity(park){
+    console.log(`${park.name} has a park density of ${park.parkDensity()}`);
+}
+//Print all park density
+allParkDensity(pierce);
+allParkDensity(kent);
+allParkDensity(aggy);
+allParkDensity(myron);
 
 //Average age of parks
 function averageParksAges() {
     let allAges, avgAges;
     allAges = data.allData.parks.ages.reduce((a,b) => a + b, 0);
     avgAges = allAges / data.allData.parks.ages.length;
-    return avgAges;
+    console.log(`Average age of all parks is ${Math.floor(avgAges)}`);
 }
+//Print average age of parks
+averageParksAges();
 
-//Total lengths of town streets 
-function totalStreetLengths() {
-    let totalLengths;
+//Total and average lengths of town streets 
+function totalandAvgStreetLengths() {
+    let totalLengths, avgLengths, sentence;
     totalLengths = data.allData.streets.streetLengths.reduce((a,b) => a + b , 0);
-    return totalLengths;
+    avgLengths = totalLengths / data.allData.streets.streetLengths.length;
+    sentence = `The total lengths of all streets is ${totalLengths} miles. The average length of all streets is ${avgLengths} miles`;
+    console.log(sentence);
 }
+//Print total and average lengths of town streets
+totalandAvgStreetLengths();
 
-//Average lengths of town streets
+//Parks over 1000 trees 
+function parksOver1000Trees() {
+    for (const el in data.allData.parks.trees) {
+        if (data.allData.parks.trees[el] < 1000) {
+            continue;
+        }
+        console.log(`${data.allData.parks.names[el]} has over 1000 trees`);
+    }
+}
+parksOver1000Trees();
+
+//Size Classification
+function sizeClass() {
+    let size;
+    for (const el in data.allData.streets.streetSize) {
+        size = el;
+        console.log(`${data.allData.streets.names[size]} has a size classification of ${data.allData.streets.streetSize[size]}`)
+    }
+}
+sizeClass();
